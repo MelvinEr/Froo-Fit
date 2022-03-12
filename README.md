@@ -1,1 +1,3 @@
-# Froo-Fit
+Run program --> npm start
+
+Restart --> rs
