@@ -1,10 +1,18 @@
-const userHandler = require("./models/userHandler");
-const {contextBridge} = require("electron");
+const { contextBridge } = require("electron");
+const mysql = require("mysql");
 
-const getNames = () => {
-    return userHandler.getNames();
-}
+let connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: null,
+  database: "froofit_db",
+});
 
-contextBridge.exposeInMainWorld("api", {
-    getNames: getNames
+connection.connect();
+let sql = 'SELECT * FROM `user`';
+connection.query(sql, function(error, results, fields) {
+    if(error) console.log(error.code);
+    else {
+        console.log(results);
+    }
 })

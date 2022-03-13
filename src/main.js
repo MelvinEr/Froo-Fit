@@ -11,7 +11,7 @@ const createWindow = () => {
   });
   win.webContents.openDevTools();
 
-  win.loadFile("src/index.html");
+  win.loadFile("src/views/index.html");
 };
 
 app.whenReady().then(() => {
