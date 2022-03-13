@@ -2,11 +2,27 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Hello World!</title>
-    <link rel="stylesheet" href="index.css" />
+    <title>Froo-Fit</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
+    <main id="content">
+      <div id ="names">
+
+      </div>
+      <h1>💖 Froo-Fit 💖</h1>
+      <button id="muscle-groups" class="button is-link">Leaderboards</button>
+      <button id="register" class="button is-link">Register</button>
+      <button id="store" class="button is-link">Store</button>
+    </main>
+    <footer class="pl-5">
+      FrooCoins: 400
+    </footer>
+
+    <script src="renderer.js"></script>
   </body>
 </html>
