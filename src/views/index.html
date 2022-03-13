@@ -11,9 +11,10 @@
   </head>
   <body>
     <main id="content">
-      <div id ="names">
-
-      </div>
+      <input type="button" id="action-btn" value="Retrieve 10 first rows in the database" />
+      <table id="table">
+        <tbody></tbody>
+      </table>
       <h1>💖 Froo-Fit 💖</h1>
       <button id="muscle-groups" class="button is-link">Leaderboards</button>
       <button id="register" class="button is-link">Register</button>
@@ -26,4 +27,71 @@
 
     <script src="../renderer.js"></script>
   </body>
+  <script>
+    var mysql = require("mysql");
+
+    function el(selector) {
+      return document.getElementById(selector);
+    }
+
+    el("action-btn").addEventListener(
+      "click",
+      function () {
+        // Get the mysql service
+        getFirstTenRows(function (rows) {
+          var html = "";
+
+          rows.forEach(function (row) {
+            html += row.id + " " + row.username + " " + row.froocoins;
+            html += "<br>";
+            console.log(row);
+          });
+
+          document.querySelector("#table > tbody").innerHTML = html;
+        });
+      },
+      false
+    );
+
+    function getFirstTenRows(callback) {
+      var mysql = require("mysql");
+
+      // Add the credentials to access your database
+      var connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: null,
+        database: "froofit_db",
+      });
+
+      // connect to mysql
+      connection.connect(function (err) {
+        // in case of error
+        if (err) {
+          console.log(err.code);
+          console.log(err.fatal);
+        }
+      });
+
+      // Perform a query
+      $query = "SELECT `id`,`username`, `froocoins` FROM `users` LIMIT 10";
+
+      connection.query($query, function (err, rows, fields) {
+        if (err) {
+          console.log("An error ocurred performing the query.");
+          console.log(err);
+          return;
+        }
+
+        callback(rows);
+
+        console.log("Query succesfully executed");
+      });
+
+      // Close the connection
+      connection.end(function () {
+        // The connection has been closed
+      });
+    }
+  </script>
 </html>
