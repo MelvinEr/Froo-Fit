@@ -11,7 +11,7 @@
   </head>
   <body>
     <main id="content">
-      <input type="button" id="action-btn" value="Retrieve 10 first rows in the database" />
+      <input type="button" id="action-btn" value="Retrieve users from the database" />
       <table id="table">
         <tbody></tbody>
       </table>
@@ -21,7 +21,7 @@
       <button id="store" class="button is-link">Store</button>
     </main>
     <footer class="pl-5">
-      <!-- hardcoded atm, ideally we would do something like activeUser.FrooCoins -->
+      <!-- hardcoded atm, ideally we would do something like user.froocoins -->
       FrooCoins: 400
     </footer>
 
@@ -37,26 +37,29 @@
     el("action-btn").addEventListener(
       "click",
       function () {
-        // Get the mysql service
-        getFirstTenRows(function (rows) {
-          var html = "";
-
+        getUsers(function (rows) {
+          let html = "";
+          let footer = "";
           rows.forEach(function (row) {
-            html += row.id + " " + row.username + " " + row.froocoins;
+            html += row.username + ": " + row.deadliftPR + "kg";
             html += "<br>";
+
+            // hardcoded atm, in the future this should display the user information of the currently logged in person (i think that makes sense?)
+            footer = row.username + "  |  Froocoins: " + row.froocoins;
             console.log(row);
           });
-
           document.querySelector("#table > tbody").innerHTML = html;
+
+          document.querySelector('footer').innerHTML = footer;
         });
       },
       false
     );
 
-    function getFirstTenRows(callback) {
+    function getUsers(callback) {
       var mysql = require("mysql");
 
-      // Add the credentials to access your database
+      // credentials to access the database
       var connection = mysql.createConnection({
         host: "localhost",
         user: "root",
@@ -73,8 +76,8 @@
         }
       });
 
-      // Perform a query
-      $query = "SELECT `id`,`username`, `froocoins` FROM `users` LIMIT 10";
+      // get id, username and froocoins values from x users
+      $query = "SELECT username, deadliftPR FROM users ORDER BY deadliftPR DESC";
 
       connection.query($query, function (err, rows, fields) {
         if (err) {
@@ -88,9 +91,8 @@
         console.log("Query succesfully executed");
       });
 
-      // Close the connection
+      // connection must be closed after query
       connection.end(function () {
-        // The connection has been closed
       });
     }
   </script>
